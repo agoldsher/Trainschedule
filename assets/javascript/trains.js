@@ -13,18 +13,25 @@
 // }
 let train = [
     {
+        name: "Trenton Express",
+        destination: "Trenton",
         frequency: 60,
         arrival: "06:30 a"
     },
     {
+        name: "Boston Bus",
+        destination: "Boston",
         frequency: 90,
         arrival: "08:00 a"
     },
     {
+        name: "California Caravan",
+        destination: "San Francisco",
         frequency: 120,
         arrival: "09:10 a"
     }
 ];
+
 // console.log(train);
 // train.push({
 //     frequency: 10,
@@ -32,28 +39,60 @@ let train = [
 // });
 // console.log(train);
 
-function initialTrainSchedule() {
-    for (let i = 0; i < train.length; i++) {
-        if (train[i].arrival <= moment().format('hh:mm a')) {
-            console.log("if " + i);
-            train[i].arrival = moment(train[i].arrival, 'hh:mm a').add(train[i].frequency, 'minutes').calendar();
-            console.log(train[i].arrival);
-            $("#train" + i).find(".arrival").html(moment(train[i].arrival, 'hh:mm a').format('hh:mm a'));
-            $("#train" + i).find(".min-away").html(moment(train[i].arrival, 'hh:mm a').fromNow());
-        } else {
-            console.log("else " + i);
-            $("#train" + i).find(".frequency").html(train[i].frequency);
-            $("#train" + i).find(".arrival").html(moment(train[i].arrival, 'hh:mm a').format('hh:mm a'));
-            $("#train" + i).find(".min-away").html(moment(train[i].arrival, 'hh:mm a').fromNow());
-            console.log(localStorage.getItem("train" + i + "-frequency", train[i].arrival))
-        }
+
+// function initialTrainSchedule() {
+//     for (let i = 0; i < train.length; i++) {
+//         localStorage.setItem("train" + i + "-name", train[i].name);
+//         localStorage.setItem("train" + i + "-destination", train[i].destination);
+//         localStorage.setItem("train" + i + "-frequency", train[i].frequency);
+//         localStorage.setItem("train" + i + "-arrival", train[i].arrival);
+
+
+
+//         // if (train[i].arrival <= moment().format('hh:mm a')) {
+//         //     console.log("if " + i);
+//         //     train[i].arrival = moment(train[i].arrival, 'hh:mm a').add(train[i].frequency, 'minutes').calendar();
+//         //     console.log(train[i].arrival);
+//         //     $("#train" + i).find(".arrival").html(moment(train[i].arrival, 'hh:mm a').format('hh:mm a'));
+//         //     $("#train" + i).find(".min-away").html(moment(train[i].arrival, 'hh:mm a').fromNow());
+//         // } else {
+//         //     console.log("else " + i);
+//         //     $("#train" + i).find(".frequency").html(train[i].frequency);
+//         //     $("#train" + i).find(".arrival").html(moment(train[i].arrival, 'hh:mm a').format('hh:mm a'));
+//         //     $("#train" + i).find(".min-away").html(moment(train[i].arrival, 'hh:mm a').fromNow());
+//         //     console.log(localStorage.getItem("train" + i + "-frequency", train[i].arrival))
+//         // }
+//     }
+// }
+function toBeExecutedOnFirstLoad() {
+    console.log("initial");
+    localStorage.setItem("length", 3);
+    for (let i = 0; i < localStorage.getItem("length"); i++) {
+        // initialTrainSchedule();
+        localStorage.setItem("train" + i + "-name", train[i].name);
+        localStorage.setItem("train" + i + "-destination", train[i].destination);
+        localStorage.setItem("train" + i + "-frequency", train[i].frequency);
+        localStorage.setItem("train" + i + "-arrival", train[i].arrival);
+
     }
+
+    updateTrainTime()
 }
+if (localStorage.getItem('first') === null) {
+    toBeExecutedOnFirstLoad();
+    localStorage.setItem('first', 'nope!');
+}
+if (localStorage.getItem('first') === "nope!") {
+    updateTrainTime();
+
+}
+
 console.log(moment().format('hh:mm:ss a'));
 
 function updateTrainTime() {
     console.log("update");
-    for (let i = 0; i < train.length; i++) {
+    for (let i = 0; i < localStorage.getItem("length"); i++) {
+
         console.log(localStorage.getItem("train" + i + "-arrival"));
         if (localStorage.getItem("train" + i + "-arrival") <= moment().format('hh:mm a')) {
             console.log("if " + i);
@@ -73,22 +112,27 @@ function updateTrainTime() {
     }
 }
 
+function renderPage() {
+    for (let i = 0; i < localStorage.getItem("length"); i++) {
+        var addTrainName = localStorage.getItem("train" + i + "-name");
+        $("tbody").append("<tr class='text-center' id='train" + i + "'></tr>");
+        $("#train" + i).append("<td class='name'>" + addTrainName + "</td>");
 
-function toBeExecutedOnFirstLoad() {
-    console.log("initial");
-    for (let i = 0; i < 3; i++) {
-        initialTrainSchedule();
-        localStorage.setItem("train" + i + "-frequency", train[i].frequency);
-        localStorage.setItem("train" + i + "-arrival", train[i].arrival);
+        var addTrainDestination = localStorage.getItem("train" + i + "-destination");
+        $("#train" + i).append("<td class='destination'>" + addTrainDestination + "</td>");
+
+        var addTrainFrequency = localStorage.getItem("train" + i + "-frequency");
+        var addTrainArrival1 = localStorage.getItem("train" + i + "-arrival");
+        $("#train" + i).append("<td class='frequency'></td>");
+        $("#train" + i).append("<td class='arrival'></td>");
+        $("#train" + i).append("<td class='min-away'></td>");
+
+
     }
 }
 
-if (localStorage.getItem('first') === null) {
-    toBeExecutedOnFirstLoad();
-    localStorage.setItem('first', 'nope!');
-}
 
-updateTrainTime()
+// updateTrainTime()
 
 var i = 2
 
@@ -112,11 +156,15 @@ $("#submit").on("click", function () {
 
 
     train.push({
+        name: addTrainName,
+        destination: addTrainDestination,
         frequency: parseInt(addTrainFrequency),
         arrival: addTrainArrival1
     })
-
+    var length = localStorage.getItem("length");
+    length++;
+    localStorage.setItem("length", length);
     console.log(train);
-    initialTrainSchedule();
+    updateTrainTime();
 })
 
