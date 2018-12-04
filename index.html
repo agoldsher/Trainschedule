@@ -24,7 +24,7 @@
     <table class="table table-dark">
         <thead>
             <tr class="text-center">
-                <th scope="col"></th>
+                <!-- <th scope="col"></th> -->
                 <th scope="col">Train Name</th>
                 <th scope="col">Destination</th>
                 <th scope="col">Frequency (min)</th>
@@ -35,7 +35,7 @@
         </thead>
         <tbody>
             <tr class="text-center" id="train0">
-                <th scope="row"></th>
+                <!-- <th scope="row"></th> -->
                 <td class="name">Trenton Express</td>
                 <td class="destination">Trenton</td>
                 <td class="frequency">frequency</td>
@@ -44,7 +44,7 @@
                 <td></td>
             </tr>
             <tr class="text-center" id="train1">
-                <th scope="row"></th>
+                <!-- <th scope="row"></th> -->
                 <td class="name">Boston Bus</td>
                 <td class="destination">Boston</td>
                 <td class="frequency">frequency</td>
@@ -53,7 +53,7 @@
                 <td></td>
             </tr>
             <tr class="text-center" id="train2">
-                <th scope="row"></th>
+                <!-- <th scope="row"></th> -->
                 <td class="name">California Caravan</td>
                 <td class="destination">San Francisco</td>
                 <td class="frequency">frequency</td>
@@ -81,15 +81,16 @@
                     </div>
                     <div class="form-group">
                         <label for="exampleFormControlSelect1">First Train Time</label>
-                        <input type="number" class="form-control" id="train-time-1" placeholder="HHMM (in military time)">
+                        <input type="text" class="form-control" id="train-time-1" placeholder="07:32 p">
 
                     </div>
                     <div class="form-group">
                         <label for="exampleFormControlSelect1">Frequency (min)</label>
                         <input type="number" class="form-control" id="train-frequency" placeholder="43">
                     </div>
+                    <input id="submit" class="btn btn-primary" type="submit" value="Submit">
                 </form>
-                <a href="#" class="btn btn-primary">Submit</a>
+
             </div>
         </div>
 
