@@ -3,19 +3,19 @@ let train = [
         name: "Trenton Express",
         destination: "Trenton",
         frequency: 60,
-        arrival: "06:30 a"
+        arrival: "06:35 a"
     },
     {
         name: "Boston Bus",
         destination: "Boston",
         frequency: 90,
-        arrival: "08:00 a"
+        arrival: "09:15 a"
     },
     {
         name: "California Caravan",
         destination: "San Francisco",
         frequency: 120,
-        arrival: "09:10 a"
+        arrival: "07:50 a"
     }
 ];
 function toBeExecutedOnFirstLoad() {
@@ -71,14 +71,14 @@ function updateTrainTime() {
                 let temp = moment(localStorage.getItem("train" + i + "-arrival"), 'hh:mm a').add(localStorage.getItem("train" + i + "-frequency"), 'minutes').calendar();
                 localStorage.setItem("train" + i + "-arrival", temp);
                 $("#train" + i).find(".arrival").html(moment(localStorage.getItem("train" + i + "-arrival"), 'hh:mm a').format('hh:mm a'));
-                $("#train" + i).find(".min-away").html(moment(localStorage.getItem("train" + i + "-arrival"), 'hh:mm a').fromNow());
+                $("#train" + i).find(".min-away").html(moment(localStorage.getItem("train" + i + "-arrival"), 'hh:mm a').fromNow(true));
             }
         } else {
             console.log("else " + i);
 
             $("#train" + i).find(".frequency").html(localStorage.getItem("train" + i + "-frequency"));
             $("#train" + i).find(".arrival").html(moment(localStorage.getItem("train" + i + "-arrival"), 'hh:mm a').format('hh:mm a'));
-            $("#train" + i).find(".min-away").html(moment(localStorage.getItem("train" + i + "-arrival"), 'hh:mm a').fromNow());
+            $("#train" + i).find(".min-away").html(moment(localStorage.getItem("train" + i + "-arrival"), 'hh:mm a').fromNow(true));
 
 
         }
@@ -97,21 +97,13 @@ $("#submit").on("click", function () {
 
     var addTrainFrequency = $("#train-frequency").val();
     var addTrainArrival1 = $("#train-time-1").val()
-    // $("#train" + i).append("<td class='frequency'></td>");
-    // $("#train" + i).append("<td class='arrival'></td>");
-    // $("#train" + i).append("<td class='min-away'></td>");
     localStorage.setItem("train" + i + "-name", addTrainName);
     localStorage.setItem("train" + i + "-destination", addTrainDestination);
     localStorage.setItem("train" + i + "-frequency", addTrainFrequency);
     localStorage.setItem("train" + i + "-arrival", addTrainArrival1);
 
 
-    // train.push({
-    //     name: addTrainName,
-    //     destination: addTrainDestination,
-    //     frequency: parseInt(addTrainFrequency),
-    //     arrival: addTrainArrival1
-    // })
+
     var length = localStorage.getItem("length");
     length++;
     localStorage.setItem("length", length);
