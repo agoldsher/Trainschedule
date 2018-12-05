@@ -65,12 +65,14 @@ function updateTrainTime() {
     for (let i = 0; i < localStorage.getItem("length"); i++) {
 
         console.log(localStorage.getItem("train" + i + "-arrival"));
-        if (localStorage.getItem("train" + i + "-arrival") <= moment().format('hh:mm a')) {
-            console.log("if " + i);
-            let temp = moment(localStorage.getItem("train" + i + "-arrival"), 'hh:mm a').add(localStorage.getItem("train" + i + "-frequency"), 'minutes').calendar();
-            localStorage.setItem("train" + i + "-arrival", temp);
-            $("#train" + i).find(".arrival").html(moment(localStorage.getItem("train" + i + "-arrival"), 'hh:mm a').format('hh:mm a'));
-            $("#train" + i).find(".min-away").html(moment(localStorage.getItem("train" + i + "-arrival"), 'hh:mm a').fromNow());
+        if ((moment(localStorage.getItem("train" + i + "-arrival"), "hh:mm a") - moment()) <= 0) {
+            while ((moment(localStorage.getItem("train" + i + "-arrival"), "hh:mm a") - moment()) <= 0) {
+                console.log("if " + i);
+                let temp = moment(localStorage.getItem("train" + i + "-arrival"), 'hh:mm a').add(localStorage.getItem("train" + i + "-frequency"), 'minutes').calendar();
+                localStorage.setItem("train" + i + "-arrival", temp);
+                $("#train" + i).find(".arrival").html(moment(localStorage.getItem("train" + i + "-arrival"), 'hh:mm a').format('hh:mm a'));
+                $("#train" + i).find(".min-away").html(moment(localStorage.getItem("train" + i + "-arrival"), 'hh:mm a').fromNow());
+            }
         } else {
             console.log("else " + i);
 
